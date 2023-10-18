@@ -31,7 +31,6 @@ public class AuthenticationController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<String> signup(@RequestBody Map<String, String> input) {
-
         String address = input.get("address");
         String birthDate = input.get("birthDate");
         String email = input.get("email");

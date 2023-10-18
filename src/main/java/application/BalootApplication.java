@@ -11,6 +11,5 @@ public class BalootApplication {
     public static void main(String[] args) {
         Baloot.getInstance().fetchAndStoreData();
         SpringApplication.run(BalootApplication.class, args);
-
     }
 }
