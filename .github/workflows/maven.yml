@@ -32,4 +32,4 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
     - name: Run Tests
-      run: mvn test
+      run: mvn test --file pom.xml
