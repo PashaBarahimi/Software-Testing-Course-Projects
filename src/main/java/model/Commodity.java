@@ -32,7 +32,7 @@ public class Commodity {
     }
 
     public void addRate(String username, int score) throws IllegalArgumentException {
-        if (score < 0 || score > 10)
+        if (score < 1 || score > 10)
             throw new IllegalArgumentException(INVALID_RATE_RANGE);
         userRate.put(username, score);
         this.calcRating();

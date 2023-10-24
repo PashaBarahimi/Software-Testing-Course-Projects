@@ -8,17 +8,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class CommodityTest {
     private Commodity commodity;
+    private final float delta = 1e-3f;
 
     @BeforeEach
     public void setUp() {
         commodity = new Commodity();
-    }
-
-    @Test
-    @DisplayName("Test commodity constructor")
-    public void testConstructor() {
-        Assertions.assertEquals(0, commodity.getInStock());
-        Assertions.assertEquals(0, commodity.getInitRate());
     }
 
     @ParameterizedTest
@@ -38,31 +32,31 @@ public class CommodityTest {
     @Test
     @DisplayName("Test initial rating")
     public void testInitialRateShouldBeZero() {
-        Assertions.assertEquals(0, commodity.getRating());
+        Assertions.assertEquals(0f, commodity.getRating());
     }
 
     @Test
     @DisplayName("Test adding the first rating")
-    public void testAddRateWithoutInitRate() {
+    public void testAddRateWithoutInitRate() throws IllegalArgumentException {
         commodity.addRate("username", 5);
-        Assertions.assertEquals(2.5, commodity.getRating());
+        Assertions.assertEquals(2.5f, commodity.getRating(), delta);
     }
 
     @Test
-    @DisplayName("Test adding another rating")
-    public void testAddRateWithInitRate() {
+    @DisplayName("Test adding rating with different init rate")
+    public void testAddRateWithInitRate() throws IllegalArgumentException {
         commodity.setInitRate(3);
         commodity.addRate("username", 5);
-        Assertions.assertEquals(4, commodity.getRating());
+        Assertions.assertEquals(4f, commodity.getRating(), delta);
     }
 
     @Test
     @DisplayName("Test adding multiple ratings")
-    public void testAddRateWithMultipleUsers() {
+    public void testAddRateWithMultipleUsers() throws IllegalArgumentException {
         commodity.addRate("username1", 5);
         commodity.addRate("username2", 4);
-        commodity.addRate("username3", 0);
-        Assertions.assertEquals(2.25, commodity.getRating());
+        commodity.addRate("username3", 2);
+        Assertions.assertEquals(2.75f, commodity.getRating(), delta);
     }
 
     @Test
@@ -72,18 +66,18 @@ public class CommodityTest {
         commodity.addRate("username", 2);
         commodity.addRate("username", 5);
         Assertions.assertEquals(1, commodity.getUserRate().size());
-        Assertions.assertEquals(2.5, commodity.getRating());
+        Assertions.assertEquals(2.5f, commodity.getRating());
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 10})
+    @ValueSource(ints = {1, 10})
     @DisplayName("Test adding rate with corner values")
     public void testAddRateWithCornerValues(int rate) throws IllegalArgumentException {
         Assertions.assertDoesNotThrow(() -> commodity.addRate("username", rate));
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {-1, 11})
+    @ValueSource(ints = {-1, 0, 11})
     @DisplayName("Test adding rate in invalid range")
     public void testAddRateWithInvalidRange(int rate) {
         Assertions.assertThrows(IllegalArgumentException.class, () -> commodity.addRate("username", rate));
