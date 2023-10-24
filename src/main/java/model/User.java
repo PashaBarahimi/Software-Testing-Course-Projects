@@ -11,6 +11,8 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static defines.Errors.INVALID_PURCHASE_QUANTITY;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -41,9 +43,11 @@ public class User {
         this.credit += amount;
     }
 
-    public void withdrawCredit(float amount) throws InsufficientCredit {
+    public void withdrawCredit(float amount) throws InsufficientCredit, IllegalArgumentException {
         if (amount > this.credit)
             throw new InsufficientCredit();
+        if (amount < 0)
+            throw new IllegalArgumentException();
 
         this.credit -= amount;
     }
@@ -60,7 +64,10 @@ public class User {
             this.buyList.put(id, 1);
     }
 
-    public void addPurchasedItem(String id, int quantity) {
+    public void addPurchasedItem(String id, int quantity) throws IllegalArgumentException {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException(INVALID_PURCHASE_QUANTITY);
+        }
         if (this.purchasedList.containsKey(id)) {
             int existingQuantity = this.purchasedList.get(id);
             this.purchasedList.put(id, existingQuantity + quantity);
