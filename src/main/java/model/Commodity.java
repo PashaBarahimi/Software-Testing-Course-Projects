@@ -1,6 +1,8 @@
 package model;
 
 import exceptions.NotInStock;
+import static defines.Errors.INVALID_RATE_RANGE;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +31,9 @@ public class Commodity {
         this.inStock += amount;
     }
 
-    public void addRate(String username, int score) {
+    public void addRate(String username, int score) throws IllegalArgumentException {
+        if (score < 0 || score > 10)
+            throw new IllegalArgumentException(INVALID_RATE_RANGE);
         userRate.put(username, score);
         this.calcRating();
     }
