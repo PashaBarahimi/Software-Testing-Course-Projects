@@ -3,6 +3,7 @@ package model;
 import exceptions.CommodityIsNotInBuyList;
 import exceptions.InsufficientCredit;
 import exceptions.InvalidCreditRange;
+import exceptions.NotInStock;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,7 +48,10 @@ public class User {
         this.credit -= amount;
     }
 
-    public void addBuyItem(Commodity commodity) {
+    public void addBuyItem(Commodity commodity) throws NotInStock {
+        if (commodity.getInStock() <= 0) {
+            throw new NotInStock();
+        }
         String id = commodity.getId();
         if (this.buyList.containsKey(id)) {
             int existingQuantity = this.buyList.get(id);
