@@ -75,5 +75,4 @@ public class User {
         } else
             throw new CommodityIsNotInBuyList();
     }
-
 }
