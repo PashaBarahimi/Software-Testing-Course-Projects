@@ -17,7 +17,7 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test comment constructor")
-    public void testConstructor_hasCorrectValue() {
+    public void testCommentConstructor() {
         Assertions.assertEquals(1, comment.getId());
         Assertions.assertEquals("text", comment.getText());
         Assertions.assertEquals("misasha@gmail.com", comment.getUserEmail());
@@ -26,14 +26,14 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test current date format")
-    public void testGetCurrentDate_hasCorrectFormat() {
+    public void testGetCurrentDateFormat() {
         String currentDate = comment.getCurrentDate();
         Assertions.assertTrue(currentDate.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"));
     }
 
     @Test
     @DisplayName("Test current date value")
-    public void testGetCurrentDate_hasCorrectValue() {
+    public void testGetCurrentDateValue() {
         String currentDate = comment.getCurrentDate();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -42,21 +42,21 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test user like")
-    public void testAddUserLike_hasCorrectValue() {
+    public void testAddUserLike() {
         comment.addUserVote("good_person", "like");
         Assertions.assertEquals(1, comment.getLike());
     }
 
     @Test
     @DisplayName("Test user dislike")
-    public void testAddUserDislike_hasCorrectValue() {
+    public void testAddUserDislike() {
         comment.addUserVote("bad_person", "dislike");
         Assertions.assertEquals(1, comment.getDislike());
     }
 
     @Test
     @DisplayName("Test two users one liking and the other disliking")
-    public void testMultipleUsersLikeAndDislike_hasCorrectValue() {
+    public void testMultipleUsersLikeAndDislike() {
         comment.addUserVote("good_person", "like");
         comment.addUserVote("bad_person", "dislike");
         Assertions.assertEquals(1, comment.getLike());
@@ -65,7 +65,7 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test giving multiple likes from a single user.")
-    public void testSingleUserMultipleLike_hasCorrectValue() {
+    public void testSingleUserMultipleLike() {
         comment.addUserVote("good_person", "like");
         comment.addUserVote("good_person", "like");
         Assertions.assertEquals(1, comment.getLike());
@@ -73,7 +73,7 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test giving multiple dislikes from a single user.")
-    public void testSingleUserMultipleDislike_hasCorrectValue() {
+    public void testSingleUserMultipleDislike() {
         comment.addUserVote("bad_person", "dislike");
         comment.addUserVote("bad_person", "dislike");
         Assertions.assertEquals(1, comment.getDislike());
@@ -81,7 +81,7 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test changing the vote of a user from like to dislike.")
-    public void testChangeUserVoteFromLikeToDislike_hasCorrectValue() {
+    public void testChangeUserVoteFromLikeToDislike() {
         comment.addUserVote("good_person", "like");
         comment.addUserVote("good_person", "dislike");
         Assertions.assertEquals(0, comment.getLike());
@@ -90,7 +90,7 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test changing the vote of a user from dislike to like")
-    public void testChangeUserVoteFromDislikeToLike_hasCorrectValue() {
+    public void testChangeUserVoteFromDislikeToLike() {
         comment.addUserVote("bad_person", "dislike");
         comment.addUserVote("bad_person", "like");
         Assertions.assertEquals(1, comment.getLike());
@@ -100,7 +100,7 @@ public class CommentTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 4, 7})
     @DisplayName("Test multiple users giving multiple likes")
-    public void testMultipleUserMultipleLike_hasCorrectValue(int count) {
+    public void testMultipleUserMultipleLike(int count) {
         for (int i = 0; i < count; i++) {
             comment.addUserVote("person" + i, "like");
         }
@@ -110,7 +110,7 @@ public class CommentTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 4, 7})
     @DisplayName("Test multiple users giving multiple dislikes")
-    public void testMultipleUserMultipleDislike_hasCorrectValue(int count) {
+    public void testMultipleUserMultipleDislike(int count) {
         for (int i = 0; i < count; i++) {
             comment.addUserVote("person" + i, "dislike");
         }
@@ -119,7 +119,7 @@ public class CommentTest {
 
     @Test
     @DisplayName("Test multiple users giving multiple likes and dislikes")
-    public void testMultipleUserMultipleLikeAndDislike_hasCorrectValue() {
+    public void testMultipleUserMultipleLikeAndDislike() {
         comment.addUserVote("good_person1", "like");
         comment.addUserVote("bad_person1", "dislike");
         comment.addUserVote("good_person2", "like");
