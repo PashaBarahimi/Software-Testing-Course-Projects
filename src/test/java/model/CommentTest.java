@@ -106,4 +106,25 @@ public class CommentTest {
         }
         Assertions.assertEquals(count, comment.getLike());
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {2, 4, 7})
+    @DisplayName("Test multiple users giving multiple dislikes")
+    public void testMultipleUserMultipleDislike_hasCorrectValue(int count) {
+        for (int i = 0; i < count; i++) {
+            comment.addUserVote("person" + i, "dislike");
+        }
+        Assertions.assertEquals(count, comment.getDislike());
+    }
+
+    @Test
+    @DisplayName("Test multiple users giving multiple likes and dislikes")
+    public void testMultipleUserMultipleLikeAndDislike_hasCorrectValue() {
+        comment.addUserVote("good_person1", "like");
+        comment.addUserVote("bad_person1", "dislike");
+        comment.addUserVote("good_person2", "like");
+        comment.addUserVote("bad_person2", "dislike");
+        Assertions.assertEquals(2, comment.getLike());
+        Assertions.assertEquals(2, comment.getDislike());
+    }
 }
