@@ -13,7 +13,6 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class Comment {
-
     int id;
     private String userEmail;
     private String username;
@@ -53,5 +52,4 @@ public class Comment {
                 this.dislike += 1;
         }
     }
-
 }
