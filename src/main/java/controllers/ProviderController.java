@@ -14,10 +14,16 @@ import java.util.ArrayList;
 
 @RestController
 public class ProviderController {
+    private Baloot baloot = Baloot.getInstance();
+
+    public void setBaloot(Baloot baloot) {
+        this.baloot = baloot;
+    }
+    
     @GetMapping(value = "/providers/{id}")
     public ResponseEntity<Provider> getProvider(@PathVariable String id) {
         try {
-            Provider provider = Baloot.getInstance().getProviderById(id);
+            Provider provider = baloot.getProviderById(id);
             return new ResponseEntity<>(provider, HttpStatus.OK);
         } catch (NotExistentProvider e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -26,7 +32,7 @@ public class ProviderController {
 
     @GetMapping(value = "/providers/{id}/commodities")
     public ResponseEntity<ArrayList<Commodity>> getProvidedCommodities(@PathVariable String id) {
-        ArrayList<Commodity> commodities = Baloot.getInstance().getCommoditiesProvidedByProvider(id);
+        ArrayList<Commodity> commodities = baloot.getCommoditiesProvidedByProvider(id);
         return new ResponseEntity<>(commodities, HttpStatus.OK);
     }
 }

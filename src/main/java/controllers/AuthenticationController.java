@@ -15,12 +15,18 @@ import java.util.Map;
 
 @RestController
 public class AuthenticationController {
+    private Baloot baloot = Baloot.getInstance();
+
+    public void setBaloot(Baloot baloot) {
+        this.baloot = baloot;
+    }
+    
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> input) {
         try {
             String username = input.get("username");
             String password = input.get("password");
-            Baloot.getInstance().login(username, password);
+            baloot.login(username, password);
             return new ResponseEntity<>("login successfully!", HttpStatus.OK);
         } catch (NotExistentUser e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -39,7 +45,7 @@ public class AuthenticationController {
 
         User newUser = new User(username, password, email, birthDate, address);
         try {
-            Baloot.getInstance().addUser(newUser);
+            baloot.addUser(newUser);
             return new ResponseEntity<>("signup successfully!", HttpStatus.OK);
         } catch (UsernameAlreadyTaken e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

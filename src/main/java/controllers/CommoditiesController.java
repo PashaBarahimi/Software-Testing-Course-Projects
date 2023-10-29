@@ -15,15 +15,21 @@ import java.util.Map;
 
 @RestController
 public class CommoditiesController {
+    private Baloot baloot = Baloot.getInstance();
+
+    public void setBaloot(Baloot baloot) {
+        this.baloot = baloot;
+    }
+    
     @GetMapping(value = "/commodities")
     public ResponseEntity<ArrayList<Commodity>> getCommodities() {
-        return new ResponseEntity<>(Baloot.getInstance().getCommodities(), HttpStatus.OK);
+        return new ResponseEntity<>(baloot.getCommodities(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/commodities/{id}")
     public ResponseEntity<Commodity> getCommodity(@PathVariable String id) {
         try {
-            Commodity commodity = Baloot.getInstance().getCommodityById(id);
+            Commodity commodity = baloot.getCommodityById(id);
             return new ResponseEntity<>(commodity, HttpStatus.OK);
         } catch (NotExistentCommodity e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -35,7 +41,7 @@ public class CommoditiesController {
         try {
             int rate = Integer.parseInt(input.get("rate"));
             String username = input.get("username");
-            Commodity commodity = Baloot.getInstance().getCommodityById(id);
+            Commodity commodity = baloot.getCommodityById(id);
             commodity.addRate(username, rate);
             return new ResponseEntity<>("rate added successfully!", HttpStatus.OK);
         } catch (NotExistentCommodity e) {
@@ -47,25 +53,25 @@ public class CommoditiesController {
 
     @PostMapping(value = "/commodities/{id}/comment")
     public ResponseEntity<String> addCommodityComment(@PathVariable String id, @RequestBody Map<String, String> input) {
-        int commentId = Baloot.getInstance().generateCommentId();
+        int commentId = baloot.generateCommentId();
         String username = input.get("username");
         String commentText = input.get("comment");
 
         User user = null;
         try {
-            user = Baloot.getInstance().getUserById(username);
+            user = baloot.getUserById(username);
         } catch (NotExistentUser ignored) {
         }
 
         Comment comment = new Comment(commentId, user.getEmail(), user.getUsername(), Integer.parseInt(id), commentText);
-        Baloot.getInstance().addComment(comment);
+        baloot.addComment(comment);
 
         return new ResponseEntity<>("comment added successfully!", HttpStatus.OK);
     }
 
     @GetMapping(value = "/commodities/{id}/comment")
     public ResponseEntity<ArrayList<Comment>> getCommodityComment(@PathVariable String id) {
-        ArrayList<Comment> comments = Baloot.getInstance().getCommentsForCommodity(Integer.parseInt(id));
+        ArrayList<Comment> comments = baloot.getCommentsForCommodity(Integer.parseInt(id));
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
@@ -76,9 +82,9 @@ public class CommoditiesController {
         String searchValue = input.get("searchValue");
 
         ArrayList<Commodity> commodities = switch (searchOption) {
-            case "name" -> Baloot.getInstance().filterCommoditiesByName(searchValue);
-            case "category" -> Baloot.getInstance().filterCommoditiesByCategory(searchValue);
-            case "provider" -> Baloot.getInstance().filterCommoditiesByProviderName(searchValue);
+            case "name" -> baloot.filterCommoditiesByName(searchValue);
+            case "category" -> baloot.filterCommoditiesByCategory(searchValue);
+            case "provider" -> baloot.filterCommoditiesByProviderName(searchValue);
             default -> new ArrayList<>();
         };
 
@@ -88,12 +94,11 @@ public class CommoditiesController {
     @GetMapping(value = "/commodities/{id}/suggested")
     public ResponseEntity<ArrayList<Commodity>> getSuggestedCommodities(@PathVariable String id) {
         try {
-            Commodity commodity = Baloot.getInstance().getCommodityById(id);
-            ArrayList<Commodity> suggestedCommodities = Baloot.getInstance().suggestSimilarCommodities(commodity);
+            Commodity commodity = baloot.getCommodityById(id);
+            ArrayList<Commodity> suggestedCommodities = baloot.suggestSimilarCommodities(commodity);
             return new ResponseEntity<>(suggestedCommodities, HttpStatus.OK);
         } catch (NotExistentCommodity ignored) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
         }
     }
-
 }
