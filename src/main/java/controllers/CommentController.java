@@ -26,6 +26,9 @@ public class CommentController {
         try {
             Comment comment = baloot.getCommentById(commentId);
             String username = input.get("username");
+            if (username == null) {
+                return new ResponseEntity<>("username not supplied.", HttpStatus.BAD_REQUEST);
+            }
             comment.addUserVote(username, "like");
             return new ResponseEntity<>("The comment was successfully liked!", HttpStatus.OK);
         } catch (NotExistentComment e) {
@@ -39,6 +42,9 @@ public class CommentController {
         try {
             Comment comment = baloot.getCommentById(commentId);
             String username = input.get("username");
+            if (username == null) {
+                return new ResponseEntity<>("username not supplied.", HttpStatus.BAD_REQUEST);
+            }
             comment.addUserVote(username, "dislike");
             return new ResponseEntity<>("The comment was successfully disliked!", HttpStatus.OK);
         } catch (NotExistentComment e) {
