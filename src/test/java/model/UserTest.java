@@ -34,7 +34,7 @@ public class UserTest {
     @DisplayName("Test adding credit to user")
     public void testAddCredit(float credit) throws InvalidCreditRange {
         user.addCredit(credit);
-        Assertions.assertEquals(user.getCredit(), initialCredit + credit, delta);
+        Assertions.assertEquals(initialCredit + credit, user.getCredit(), delta);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class UserTest {
     @DisplayName("Test withdrawing credit from user")
     public void testWithdrawCredit(float credit) throws InsufficientCredit, IllegalArgumentException {
         user.withdrawCredit(credit);
-        Assertions.assertEquals(user.getCredit(), initialCredit - credit, delta);
+        Assertions.assertEquals(initialCredit - credit, user.getCredit(), delta);
     }
 
     @Test

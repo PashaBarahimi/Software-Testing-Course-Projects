@@ -37,7 +37,7 @@ public class CommentTest {
         String currentDate = comment.getCurrentDate();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Assertions.assertEquals(dateFormat.format(date), currentDate.substring(0, 10));
+        Assertions.assertEquals(currentDate.substring(0, 10), dateFormat.format(date));
     }
 
     @Test
