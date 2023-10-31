@@ -20,7 +20,7 @@ public class AuthenticationController {
     public void setBaloot(Baloot baloot) {
         this.baloot = baloot;
     }
-    
+
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> input) {
         try {
@@ -52,4 +52,3 @@ public class AuthenticationController {
         }
     }
 }
-
