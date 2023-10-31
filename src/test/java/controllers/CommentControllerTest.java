@@ -21,7 +21,7 @@ public class CommentControllerTest {
     private final String username = "person";
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         baloot = mock(Baloot.class);
         comment = spy(new Comment(1, "email@mail.com", username, 1, "text"));
         input = Map.of("username", username);
@@ -31,7 +31,7 @@ public class CommentControllerTest {
 
     @Test
     @DisplayName("Test liking an existing comment")
-    void testLikeComment() throws NotExistentComment {
+    public void testLikeComment() throws NotExistentComment {
         when(baloot.getCommentById(1)).thenReturn(comment);
         ResponseEntity<String> response = commentController.likeComment("1", input);
         verify(comment, times(1)).addUserVote(username, "like");
@@ -41,7 +41,7 @@ public class CommentControllerTest {
 
     @Test
     @DisplayName("Test liking a nonexistent comment")
-    void testLikeCommentWithNonexistentComment() throws NotExistentComment {
+    public void testLikeCommentWithNonexistentComment() throws NotExistentComment {
         when(baloot.getCommentById(1)).thenThrow(new NotExistentComment());
         ResponseEntity<String> response = commentController.likeComment("1", input);
         verify(comment, times(0)).addUserVote(username, "like");
@@ -51,7 +51,7 @@ public class CommentControllerTest {
 
     @Test
     @DisplayName("Test liking without username")
-    void testLikeCommentWithoutUsername() throws NotExistentComment {
+    public void testLikeCommentWithoutUsername() throws NotExistentComment {
         when(baloot.getCommentById(1)).thenReturn(comment);
         ResponseEntity<String> response = commentController.likeComment("1", Map.of());
         verify(comment, times(0)).addUserVote(username, "like");
@@ -61,7 +61,7 @@ public class CommentControllerTest {
 
     @Test
     @DisplayName("Test disliking an existing comment")
-    void testDislikeComment() throws NotExistentComment {
+    public void testDislikeComment() throws NotExistentComment {
         when(baloot.getCommentById(1)).thenReturn(comment);
         ResponseEntity<String> response = commentController.dislikeComment("1", input);
         verify(comment, times(1)).addUserVote(username, "dislike");
@@ -71,7 +71,7 @@ public class CommentControllerTest {
 
     @Test
     @DisplayName("Test disliking a nonexistent comment")
-    void testDislikeCommentWithNonexistentComment() throws NotExistentComment {
+    public void testDislikeCommentWithNonexistentComment() throws NotExistentComment {
         when(baloot.getCommentById(1)).thenThrow(new NotExistentComment());
         ResponseEntity<String> response = commentController.dislikeComment("1", input);
         verify(comment, times(0)).addUserVote(username, "dislike");
@@ -81,7 +81,7 @@ public class CommentControllerTest {
 
     @Test
     @DisplayName("Test disliking without username")
-    void testDislikeCommentWithoutUsername() throws NotExistentComment {
+    public void testDislikeCommentWithoutUsername() throws NotExistentComment {
         when(baloot.getCommentById(1)).thenReturn(comment);
         ResponseEntity<String> response = commentController.dislikeComment("1", Map.of());
         verify(comment, times(0)).addUserVote(username, "dislike");
