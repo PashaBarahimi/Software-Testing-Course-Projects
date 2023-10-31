@@ -1,6 +1,5 @@
-package controller;
+package controllers;
 
-import controllers.CommentController;
 import exceptions.NotExistentComment;
 import model.Comment;
 
