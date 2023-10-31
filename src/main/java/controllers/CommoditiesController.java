@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static defines.Errors.NOT_EXISTENT_USER;
+
 @RestController
 public class CommoditiesController {
     private Baloot baloot = Baloot.getInstance();
@@ -46,7 +48,7 @@ public class CommoditiesController {
             return new ResponseEntity<>("rate added successfully!", HttpStatus.OK);
         } catch (NotExistentCommodity e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -57,10 +59,11 @@ public class CommoditiesController {
         String username = input.get("username");
         String commentText = input.get("comment");
 
-        User user = null;
+        User user;
         try {
             user = baloot.getUserById(username);
-        } catch (NotExistentUser ignored) {
+        } catch (NotExistentUser e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
         Comment comment = new Comment(commentId, user.getEmail(), user.getUsername(), Integer.parseInt(id), commentText);
