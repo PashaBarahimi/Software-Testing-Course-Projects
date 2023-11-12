@@ -22,8 +22,8 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
 
-    - name: Build with Maven
-      run: mvn clean install
+    - name: Build Baloot 1 with Maven
+      run: mvn clean install -f Baloot1/pom.xml
 
   test:
     needs: build
@@ -39,5 +39,5 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
 
-    - name: Run tests
-      run: mvn test
+    - name: Run Baloot1 tests
+      run: mvn test -f Baloot1/pom.xml
