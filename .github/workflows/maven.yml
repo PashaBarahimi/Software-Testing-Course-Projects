@@ -25,6 +25,9 @@ jobs:
     - name: Build Baloot 1 with Maven
       run: mvn clean install -f Baloot1/pom.xml
 
+    - name: Build Baloot 2 with Maven
+      run: mvn clean install -f Baloot2/pom.xml
+
   test:
     needs: build
     runs-on: ubuntu-latest
@@ -39,5 +42,8 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
 
-    - name: Run Baloot1 tests
+    - name: Run Baloot 1 tests
       run: mvn test -f Baloot1/pom.xml
+
+    - name: Run Baloot 2 tests
+      run: mvn test -f Baloot2/pom.xml
