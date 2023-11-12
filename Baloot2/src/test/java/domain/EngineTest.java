@@ -1,6 +1,6 @@
 package domain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 public class EngineTest {
 
