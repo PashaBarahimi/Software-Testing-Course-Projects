@@ -9,27 +9,7 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up JDK 19
-      uses: actions/setup-java@v2
-      with:
-        java-version: '19'
-        distribution: 'temurin'
-
-    - name: Build Baloot 1 with Maven
-      run: mvn clean install -f Baloot1/pom.xml
-
-    - name: Build Baloot 2 with Maven
-      run: mvn clean install -f Baloot2/pom.xml
-
   test:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
