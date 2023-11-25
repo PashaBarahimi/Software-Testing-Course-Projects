@@ -1,5 +1,6 @@
 package domain;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
 
 public class EngineTest {
@@ -10,6 +11,7 @@ public class EngineTest {
         engine = new Engine();
     }
 
+    @NotNull
     public static Order constructOrder(int id, int customer, int price, int quantity) {
         Order order = new Order();
         order.setId(id);
