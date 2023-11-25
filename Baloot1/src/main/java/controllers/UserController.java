@@ -17,7 +17,7 @@ public class UserController {
     public void setBaloot(Baloot baloot) {
         this.baloot = baloot;
     }
-    
+
     @GetMapping(value = "/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable String id) {
         try {
@@ -30,8 +30,12 @@ public class UserController {
 
     @PostMapping(value = "/users/{id}/credit")
     public ResponseEntity<String> addCredit(@PathVariable String id, @RequestBody Map<String, String> input) {
+        String creditStr = input.get("credit");
+        if (creditStr == null) {
+            return new ResponseEntity<>("Please enter a valid number for the credit amount.", HttpStatus.BAD_REQUEST);
+        }
         try {
-            float credit = Float.parseFloat(input.get("credit"));
+            float credit = Float.parseFloat(creditStr);
             baloot.getUserById(id).addCredit(credit);
             return new ResponseEntity<>("credit added successfully!", HttpStatus.OK);
         } catch (InvalidCreditRange e) {
@@ -39,8 +43,7 @@ public class UserController {
         } catch (NotExistentUser e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (NumberFormatException e) {
-            return new ResponseEntity<>("Please enter a valid number for the credit amount."
-                    , HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Please enter a valid number for the credit amount.", HttpStatus.BAD_REQUEST);
         }
     }
 }
