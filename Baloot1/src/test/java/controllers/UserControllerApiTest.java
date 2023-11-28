@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import service.Baloot;
 
@@ -32,7 +33,7 @@ public class UserControllerApiTest {
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static User getAnonymouseUser() {
+    private static User getAnonymousUser() {
         return new User("username", "password", "email@mail.com", "2023-01-01", "address");
     }
 
@@ -44,7 +45,7 @@ public class UserControllerApiTest {
     @Test
     @DisplayName("Test getUser() with a valid id")
     public void testGetUserApiWithValidId() throws Exception {
-        User user = getAnonymouseUser();
+        User user = getAnonymousUser();
         when(baloot.getUserById(user.getUsername())).thenReturn(user);
         mockMvc.perform(get("/users/{id}", user.getUsername()))
                 .andExpect(status().isOk())
@@ -67,11 +68,11 @@ public class UserControllerApiTest {
     @Test
     @DisplayName("Test addCredit() with a valid id and credit")
     public void testAddCreditApiWithValidIdAndCredit() throws Exception {
-        User user = getAnonymouseUser();
+        User user = getAnonymousUser();
         Map<String, String> input = Map.of("credit", "1000");
         when(baloot.getUserById(user.getUsername())).thenReturn(user);
         mockMvc.perform(post("/users/{id}/credit", user.getUsername())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("credit added successfully!"));
@@ -83,7 +84,7 @@ public class UserControllerApiTest {
         Map<String, String> input = Map.of("credit", "1000");
         when(baloot.getUserById("1")).thenThrow(new NotExistentUser());
         mockMvc.perform(post("/users/{id}/credit", "1")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(NOT_EXISTENT_USER));
@@ -92,11 +93,11 @@ public class UserControllerApiTest {
     @Test
     @DisplayName("Test addCredit() with an invalid credit")
     public void testAddCreditApiWithInvalidCredit() throws Exception {
-        User user = getAnonymouseUser();
+        User user = getAnonymousUser();
         Map<String, String> input = Map.of("credit", "invalidCredit");
         when(baloot.getUserById(user.getUsername())).thenReturn(user);
         mockMvc.perform(post("/users/{id}/credit", user.getUsername())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Please enter a valid number for the credit amount."));
@@ -105,11 +106,11 @@ public class UserControllerApiTest {
     @Test
     @DisplayName("Test addCredit() with a negative credit")
     public void testAddCreditApiWithNegativeCredit() throws Exception {
-        User user = getAnonymouseUser();
+        User user = getAnonymousUser();
         Map<String, String> input = Map.of("credit", "-1000");
         when(baloot.getUserById(user.getUsername())).thenReturn(user);
         mockMvc.perform(post("/users/{id}/credit", user.getUsername())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(INVALID_CREDIT_RANGE));
@@ -118,11 +119,11 @@ public class UserControllerApiTest {
     @Test
     @DisplayName("Test addCredit() with no credit")
     public void testAddCreditApiWithNoCredit() throws Exception {
-        User user = getAnonymouseUser();
+        User user = getAnonymousUser();
         Map<String, String> input = Map.of();
         when(baloot.getUserById(user.getUsername())).thenReturn(user);
         mockMvc.perform(post("/users/{id}/credit", user.getUsername())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Please enter a valid number for the credit amount."));

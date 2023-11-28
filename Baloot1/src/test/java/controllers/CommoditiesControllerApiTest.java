@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import service.Baloot;
 
@@ -101,7 +102,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getCommodityById(commodity.getId())).thenReturn(commodity);
         Map<String, String> map = Map.of("rate", rate, "username", "user");
         mockMvc.perform(post("/commodities/{id}/rate", commodity.getId())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("rate added successfully!"));
@@ -113,7 +114,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getCommodityById(anyString())).thenThrow(new NotExistentCommodity());
         Map<String, String> map = Map.of("rate", "5", "username", "user");
         mockMvc.perform(post("/commodities/{id}/rate", "1")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(NOT_EXISTENT_COMMODITY));
@@ -129,7 +130,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getCommodityById(commodity.getId())).thenReturn(commodity);
         Map<String, String> map = Map.of("rate", rate, "username", "user");
         mockMvc.perform(post("/commodities/{id}/rate", commodity.getId())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").isNotEmpty());
@@ -145,7 +146,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getCommodityById(commodity.getId())).thenReturn(commodity);
         Map<String, String> map = Map.of("rate", rate, "username", "user");
         mockMvc.perform(post("/commodities/{id}/rate", commodity.getId())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(INVALID_RATE_RANGE));
@@ -160,7 +161,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getCommodityById(commodity.getId())).thenReturn(commodity);
         Map<String, String> map = Map.of("username", "user");
         mockMvc.perform(post("/commodities/{id}/rate", commodity.getId())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").isNotEmpty());
@@ -177,7 +178,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getUserById(user.getUsername())).thenReturn(user);
         Map<String, String> map = Map.of("username", user.getUsername(), "comment", "comment");
         mockMvc.perform(post("/commodities/{id}/comment", commodity.getId())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("comment added successfully!"));
@@ -193,7 +194,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.getUserById(anyString())).thenThrow(new NotExistentUser());
         Map<String, String> map = Map.of("username", "user", "comment", "comment");
         mockMvc.perform(post("/commodities/{id}/comment", commodity.getId())
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(NOT_EXISTENT_USER));
@@ -250,7 +251,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.filterCommoditiesByName("name")).thenReturn(commodities);
         Map<String, String> map = Map.of("searchOption", "name", "searchValue", "name");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -267,7 +268,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.filterCommoditiesByName("name1")).thenReturn(commodities);
         Map<String, String> map = Map.of("searchOption", "name", "searchValue", "name1");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -289,7 +290,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.filterCommoditiesByCategory("category")).thenReturn(commodities);
         Map<String, String> map = Map.of("searchOption", "category", "searchValue", "category");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -306,7 +307,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.filterCommoditiesByCategory("category1")).thenReturn(commodities);
         Map<String, String> map = Map.of("searchOption", "category", "searchValue", "category");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -328,7 +329,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.filterCommoditiesByProviderName("provider")).thenReturn(commodities);
         Map<String, String> map = Map.of("searchOption", "provider", "searchValue", "provider");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -345,7 +346,7 @@ public class CommoditiesControllerApiTest {
         when(baloot.filterCommoditiesByProviderName("provider1")).thenReturn(commodities);
         Map<String, String> map = Map.of("searchOption", "provider", "searchValue", "provider1");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -356,7 +357,7 @@ public class CommoditiesControllerApiTest {
     public void testSearchCommoditiesApiFilterByInvalidOption() throws Exception {
         Map<String, String> map = Map.of("searchOption", "invalid", "searchValue", "value");
         mockMvc.perform(post("/commodities/search")
-                .contentType("application/json")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(map)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
