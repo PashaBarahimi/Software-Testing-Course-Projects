@@ -22,14 +22,8 @@ jobs:
         java-version: '19'
         distribution: 'oracle'
 
-    - name: Go to Baloot1 directory
-      run: cd Baloot1
-
     - name: Run Baloot 1 tests
-      run: mvn test -f pom.xml
-
-    - name: Go to Baloot2 directory
-      run: cd ../Baloot2
+      run: cd Baloot1 && mvn test -f pom.xml
 
     - name: Run Baloot 2 tests
-      run: mvn test -f pom.xml
+      run: cd ../Baloot2 && mvn test -f pom.xml
