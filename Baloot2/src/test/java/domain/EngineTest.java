@@ -26,12 +26,14 @@ public class EngineTest {
     @Test
     @DisplayName("Test average quantity with no orders")
     public void testAverageQuantityNoOrders() {
+        setUp();
         Assertions.assertEquals(0, engine.getAverageOrderQuantityByCustomer(1));
     }
 
     @Test
     @DisplayName("Test average quantity with one order")
     public void testAverageQuantityOneOrder() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         engine.orderHistory.add(order);
         Assertions.assertEquals(2, engine.getAverageOrderQuantityByCustomer(1));
