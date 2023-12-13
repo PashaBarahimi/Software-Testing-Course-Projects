@@ -23,13 +23,13 @@ jobs:
         distribution: 'oracle'
 
     - name: Go to Baloot1 directory
-      run: pushd Baloot1
+      run: cd Baloot1
 
     - name: Run Baloot 1 tests
       run: mvn test -f pom.xml
 
     - name: Go to Baloot2 directory
-      run: popd && pushd Baloot2
+      run: cd ../Baloot2
 
     - name: Run Baloot 2 tests
-      run: mvn test -f Baloot2/pom.xml
+      run: mvn test -f pom.xml
