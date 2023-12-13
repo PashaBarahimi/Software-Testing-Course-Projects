@@ -26,4 +26,4 @@ jobs:
       run: cd Baloot1 && mvn test -f pom.xml
 
     - name: Run Baloot 2 tests
-      run: cd ../Baloot2 && mvn test -f pom.xml
+      run: cd Baloot2 && mvn test -f pom.xml
