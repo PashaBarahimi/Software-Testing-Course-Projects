@@ -15,7 +15,6 @@ public class OrderTest {
     @Test
     @DisplayName("Test order.equals should only compare order ids")
     public void testEqualsComparesIds() {
-        setUp();
         Order order = new Order() {{
             setId(0);
         }};
@@ -28,7 +27,6 @@ public class OrderTest {
     @Test
     @DisplayName("Test order.equals with different order ids")
     public void testEqualsDifferentIds() {
-        setUp();
         Order newOrder = new Order() {{
             setId(1);
         }};
@@ -38,7 +36,6 @@ public class OrderTest {
     @Test
     @DisplayName("Test order.equals with object of another type")
     public void testEqualsWrongObject() {
-        setUp();
         Object object = new Object();
         Assertions.assertFalse(order.equals(object));
     }
@@ -46,7 +43,6 @@ public class OrderTest {
     @Test
     @DisplayName("Test order getter and setters")
     public void testOrderGetterSetters() {
-        setUp();
         order.setId(1);
         order.setCustomer(2);
         order.setPrice(3);
