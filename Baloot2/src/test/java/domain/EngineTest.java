@@ -42,6 +42,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test average quantity with multiple orders")
     public void testAverageQuantityMultipleOrders() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 1, 8, 6);
         engine.orderHistory.add(order);
@@ -52,6 +53,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test average quantity with unknown customer")
     public void testAverageQuantityUnknownCustomer() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         engine.orderHistory.add(order);
         Assertions.assertThrows(Exception.class, () -> engine.getAverageOrderQuantityByCustomer(2));
@@ -62,12 +64,14 @@ public class EngineTest {
     @Test
     @DisplayName("Test quantity pattern with no orders")
     public void testQuantityPatternNoOrders() {
+        setUp();
         Assertions.assertEquals(0, engine.getQuantityPatternByPrice(1));
     }
 
     @Test
     @DisplayName("Test quantity pattern with linear increasing quantity for a price")
     public void testQuantityPatternWithPattern() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 2, 4, 8);
         Order order3 = constructOrder(2, 2, 4, 14);
@@ -80,6 +84,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test quantity pattern without pattern")
     public void testQuantityPatternWithoutPattern() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 2, 4, 8);
         Order order3 = constructOrder(2, 2, 4, 13);
@@ -92,6 +97,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test quantity pattern with pattern and different prices")
     public void testQuantityPatternWithPatternAndDifferentPrices() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 2, 4, 8);
         Order order3 = constructOrder(2, 2, 5, 13);
@@ -108,6 +114,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test fraudulent quantity with order quantity more than the average")
     public void testFraudulentQuantityMoreThanAvg() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 1, 8, 6);
         engine.orderHistory.add(order);
@@ -117,6 +124,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test fraudulent quantity with order quantity equal to the average")
     public void testFraudulentQuantityEqualToAvg() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         engine.orderHistory.add(order);
         Assertions.assertEquals(0, engine.getCustomerFraudulentQuantity(order));
@@ -125,6 +133,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test fraudulent quantity with order quantity less than the average")
     public void testFraudulentQuantityLessThanAvg() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 1, 8, 6);
         engine.orderHistory.add(order2);
@@ -136,6 +145,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test adding already existing order")
     public void testAddingAlreadyExistingOrder() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         engine.orderHistory.add(order);
         Assertions.assertEquals(0, engine.addOrderAndGetFraudulentQuantity(order));
@@ -144,6 +154,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test adding order and getting fraudulent quantity (if not 0)")
     public void testAddOrderAndGetFraudulent() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 2);
         Order order2 = constructOrder(1, 1, 8, 6);
         engine.orderHistory.add(order);
@@ -154,6 +165,7 @@ public class EngineTest {
     @Test
     @DisplayName("Test adding order and getting fraudulent quantity of 0 (should return pattern)")
     public void testAddOrderAndGetFraudulentBelowAvg() {
+        setUp();
         Order order = constructOrder(0, 1, 4, 8);
         Order order2 = constructOrder(1, 1, 4, 14);
         Order order3 = constructOrder(2, 1, 4, 2);
